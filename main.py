@@ -1,36 +1,13 @@
-from gtts import gTTS
-import os
-import sys
+import asyncio
+import edge_tts
 
-def text_to_speech():
-    try:
-        # Step 1: Take input from user
-        text = input("Enter the text you want to convert to audio:\n").strip()
+async def improve_audio():
+    TEXT = "Welcome to your improved text-to-audio project with neural voices!"
+    VOICE = "en-US-GuyNeural" # High-quality Microsoft voice
+    OUTPUT_FILE = "improved_audio.mp3"
+    
+    communicate = edge_tts.Communicate(TEXT, VOICE)
+    await communicate.save(OUTPUT_FILE)
+    print(f"Saved to {OUTPUT_FILE}")
 
-        # Safety Check 1: Empty input
-        if not text:
-            print("❌ Error: You did not enter any text.")
-            return
-
-        # Step 2: Create TTS object
-        tts = gTTS(text=text, lang="en")
-
-        # Step 3: Define output file name
-        file_name = "user_audio.mp3"
-
-        # Step 4: Save audio file
-        tts.save(file_name)
-
-        # Success message
-        print(f"✅ Audio created successfully: {file_name}")
-
-    except KeyboardInterrupt:
-        print("\n❌ Program interrupted by user.")
-
-    except Exception as e:
-        print("❌ Something went wrong.")
-        print("Error details:", e)
-
-
-if __name__ == "__main__":
-    text_to_speech()
+asyncio.run(improve_audio())
